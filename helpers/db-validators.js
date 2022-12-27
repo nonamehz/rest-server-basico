@@ -13,9 +13,6 @@ const emailExiste = async (correo = '') => {
     const existeEmail = await Usuario.findOne({ correo });
     if (existeEmail) {
         throw new Error(`El correo ${correo} ya está registrado`);
-        // return res.status(400).json({
-        //     msg: 'Ese correo ya está registrado'
-        // });
     }
 
 }
@@ -41,10 +38,27 @@ const existeProductoPorId = async (id) => {
     }
 }
 
+/*
+    * Validar colecciones permitidas
+*/
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+
+    const incluida = colecciones.includes(coleccion);
+
+    if (!incluida) {
+        throw new Error(`La colección ${coleccion} no es permitida, ${colecciones}`);
+    }
+
+    return true;
+
+}
+
+
 module.exports = {
     esRoleValido,
     emailExiste,
     existeUsuarioPorId,
     existeCategoriaPorId,
     existeProductoPorId,
+    coleccionesPermitidas,
 }
